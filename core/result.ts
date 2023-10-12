@@ -6,7 +6,7 @@ class Reslove{
       code,
     }
   }
-  json(data:object,msg = 'success', errorCode = 1, code = 200) {
+  json(data:any,msg = 'success', errorCode = 1, code = 200) {
     return {
       msg,
       errorCode,

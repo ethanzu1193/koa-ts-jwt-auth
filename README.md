@@ -1,14 +1,28 @@
-# KOA-TS-TEMPLETE
+# KOA-TS-JWT-AUTH
 
 ## 描述
 
-koa 使用 typescript 基础模板，技术栈包括 koa2,typescript,koa-router,dotenv
+使用 KOA-TS-TEMPLETE作为基础，在其中添加基于jwt的认证体系，完成用户登录鉴权操作，
+涉及到新增类库 koa-jwt，jsonwebtoken，basic-auth
 
 ## 运行
 
 ```shell
 #初始化
-npm install
+yarn
 #运行
-npm run dev
+yarn dev
 ```
+
+## 模型
+
+### 用户模型
+
+User 
+创建用户 
+修改用户信息
+删除用户信息
+
+登录
+退出登录
+

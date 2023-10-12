@@ -1,20 +1,33 @@
 import Koa = require('koa');
-import dotenv from 'dotenv'
-import { join } from 'path'
-import { logger } from './core/log'
-import testRouter from './router/testRouter'
+import {initConfig} from './config'
+import catchError from './middleware/exception';
+import KoaBouncer = require('koa-bouncer');
+import bodyParser = require('koa-bodyparser');
+import authRouter from './router/auth';
+import Router = require('@koa/router');
 
-
-const result = dotenv.config({ path: join(__dirname, './.env') })
-if (result.error) {
-  logger.error('Environment variable not loaded: not found ".env" file.')
-  process.exit(1); 
-}
-logger.info('Environment variable loaded.')
+initConfig() // 初始化配置
 
 const app = new Koa();
-app.use(testRouter.routes())
-app.use(testRouter.allowedMethods())
+//中间层加载
+
+//异常处理
+app.use(catchError)
+
+//入参验证
+app.use(KoaBouncer.middleware())
+//Koa body parsing middleware
+app.use(bodyParser({
+  enableTypes: ['json', 'form', 'text']
+}))
+
+
+//加载router
+
+app.use(authRouter.routes())
+app.use(authRouter.allowedMethods())
+
+//服务启动
 app.listen(process.env.SERVER_PORT, () => {
   console.log(`listen ${process.env.SERVER_PORT} ok`);
 })
