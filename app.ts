@@ -5,6 +5,7 @@ import KoaBouncer = require('koa-bouncer');
 import bodyParser = require('koa-bodyparser');
 import authRouter from './router/auth';
 import Router = require('@koa/router');
+import userRouter from './router/user';
 
 initConfig() // 初始化配置
 
@@ -23,9 +24,12 @@ app.use(bodyParser({
 
 
 //加载router
-
 app.use(authRouter.routes())
 app.use(authRouter.allowedMethods())
+
+app.use(userRouter.routes())
+app.use(userRouter.allowedMethods())
+
 
 //服务启动
 app.listen(process.env.SERVER_PORT, () => {

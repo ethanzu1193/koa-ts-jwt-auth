@@ -1,5 +1,4 @@
 import { Context, Next } from "koa";
-import { registerValidator } from "../validator/auth";
 import { Existing, HttpException } from "../core/http-exception";
 
 import res from "../core/result";
@@ -13,8 +12,6 @@ interface RegisterRequest {
 class AuthController{
    // 注册用户
   static async register(ctx: Context, next: Next): Promise<void> {
-    // 参数校验
-    registerValidator(ctx);
     const body = ctx.request.body as RegisterRequest; // 显式指定请求体的类型
 
     const { nickName, password2 } = body;
