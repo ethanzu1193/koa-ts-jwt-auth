@@ -1,35 +1,49 @@
 import { Context, Next } from "koa";
-import { Existing, HttpException } from "../core/http-exception";
+import { validate } from 'class-validator';
+import { ParameterException } from "../core/http-exception";
+import { extractValidationErrors } from "../core/validationUtils";
 
 import res from "../core/result";
+import UserLoginDto from "../dto/user-login";
+import AuthService from "../service/auth";
+import UserLogOutDto from "../dto/user-logOut";
 
-interface RegisterRequest {
-  nickName: string;
-  password: string;
-  password2: string;
-}
 
 class AuthController{
-   // 注册用户
-  static async register(ctx: Context, next: Next): Promise<void> {
-    const body = ctx.request.body as RegisterRequest; // 显式指定请求体的类型
+  // 用户登录
+  static async login(ctx: Context, next: Next): Promise<void> {
+    const dto = new UserLoginDto()
+    Object.assign(dto, ctx.request.body)
+    //参数校验
+    const errors = await validate(dto);
+    if (errors.length > 0) {
+      throw new ParameterException(extractValidationErrors(errors))
+    }    
 
-    const { nickName, password2 } = body;
-    console.log(nickName,password2);
+    const authService = new AuthService();
+    authService.login(dto)
     
-    // 查找用户是否存在
-    // const currentUser = await AdminModel.findOne({ nickName: nickName });
-    // if (currentUser) {
-    //   throw new Existing('用户已存在');
-    // }
-
-    // const user = await AdminModel.create({
-    //   nickName: nickName,
-    //   password: password2,
-    // });
-
     ctx.status = 200;
     ctx.body = res.success('注册成功');
+
+  }
+
+  // 用户登出
+  static async logOut(ctx: Context, next: Next): Promise<void> {
+    const dto = new UserLogOutDto()
+    Object.assign(dto, ctx.request.body)
+    //参数校验
+    const errors = await validate(dto);
+    if (errors.length > 0) {
+      throw new ParameterException(extractValidationErrors(errors))
+    }    
+
+    const authService = new AuthService();
+    authService.logOut(dto)
+    
+    ctx.status = 200;
+    ctx.body = res.success('注册成功');
+
   }
 
 }

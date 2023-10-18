@@ -1,16 +1,20 @@
-import { ParameterException } from "../core/http-exception";
+import UserGetUserInfoDto from "../dto/user-get-user-info";
 import UserRegisterDto from "../dto/user-register";
-import User from "../model/user";
+import UserModel from "../model/user";
+import UserGetUserInfoResponse from "../response/user-get-user-info";
 
 
 class UserService{
   async register(userRegisterDto: UserRegisterDto): Promise<void> {
-    const { nickName, password } = userRegisterDto;
-    if (!nickName || !password) { 
-      throw new ParameterException();     
-    }
-    const user = new User(nickName, password);
-    await user.register()
+    const user = new UserModel();
+    await user.register(userRegisterDto)
   }
+
+  async getUserInfo(userGetUserInfoDto: UserGetUserInfoDto): Promise<UserGetUserInfoResponse> {
+    const user = new UserModel();
+    await user.getUserInfo(userGetUserInfoDto)
+    return new UserGetUserInfoResponse(); 
+  }
+
 }
 export default UserService;
