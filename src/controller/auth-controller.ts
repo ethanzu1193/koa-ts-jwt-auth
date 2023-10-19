@@ -8,7 +8,6 @@ import UserLoginDto from "../dto/user-login";
 import AuthService from "../service/auth";
 import UserLogOutDto from "../dto/user-logOut";
 
-
 class AuthController{
   // 用户登录
   static async login(ctx: Context, next: Next): Promise<void> {

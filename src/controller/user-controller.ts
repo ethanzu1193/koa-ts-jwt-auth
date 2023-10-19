@@ -3,7 +3,6 @@ import { Context, Next } from "koa";
 import res from "../core/result";
 import UserService from "../service/user";
 import UserRegisterDto from "../dto/user-register";
-
 import { validate } from 'class-validator';
 import { ParameterException } from "../core/http-exception";
 import { extractValidationErrors } from "../core/validationUtils";
