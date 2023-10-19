@@ -2,6 +2,7 @@
 
 #env
 .env
+.local_env
 
 # dependencies
 node_modules/

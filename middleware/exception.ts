@@ -6,8 +6,6 @@ const catchError: Middleware = async (ctx, next) => {
   try {
     await next();
   } catch (error) {
-    console.log(error);
-    
     if (error instanceof ValidationError) {
       ctx.body = {
         name: error.name,
