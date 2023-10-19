@@ -2,9 +2,9 @@
   "name": "koa-ts-templete",
   "version": "1.0.0",
   "description": "",
-  "main": "app.ts",
+  "main": "src/app.ts",
   "scripts": {
-    "dev": "export NODE_ENV=development; nodemon -e ts --exec ts-node app.ts"
+    "dev": "export NODE_ENV=development; nodemon -e ts --exec ts-node src/app.ts"
   },
   "keywords": [],
   "author": "",

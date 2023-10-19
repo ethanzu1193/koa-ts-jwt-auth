@@ -1,5 +1,5 @@
-import { initConfig } from "../../config";
-import { generateToken } from "../../core/tokenUtils";
+import { initConfig } from "../../src/config";
+import { generateToken } from "../../src/core/tokenUtils";
 
 initConfig()
 describe('generateToken', () => {
