@@ -1,37 +1,56 @@
 import Koa = require('koa');
-import {initConfig} from './config'
+import { initConfig } from './config';
 import catchError from './middleware/exception';
 import KoaBouncer = require('koa-bouncer');
 import bodyParser = require('koa-bodyparser');
 import authRouter from './router/auth';
 import Router = require('@koa/router');
 import userRouter from './router/user';
+import "reflect-metadata"
+    
+import { AppDataSource, initDataSource } from './data-source';
 
-initConfig() // 初始化配置
+async function startServer() {
+  try {
+    // 初始化配置
+     initConfig();
 
-const app = new Koa();
-//中间层加载
+    const app = new Koa();
+    
+    // 异常处理
+    app.use(catchError);
+    
+    // 入参验证
+    app.use(KoaBouncer.middleware());
+    
+    // Koa body parsing middleware
+    app.use(bodyParser({
+      enableTypes: ['json', 'form', 'text']
+    }));
+    
+    // 加载 router
+    app.use(authRouter.routes());
+    app.use(authRouter.allowedMethods());
+    
+    app.use(userRouter.routes());
+    app.use(userRouter.allowedMethods());
 
-//异常处理
-app.use(catchError)
+    // 初始化数据库
+    initDataSource();
+    if (AppDataSource) {
+      await AppDataSource.initialize();
+      console.log("DB 初始化成功");
+    }
 
-//入参验证
-app.use(KoaBouncer.middleware())
-//Koa body parsing middleware
-app.use(bodyParser({
-  enableTypes: ['json', 'form', 'text']
-}))
+    // 服务启动
+    app.listen(process.env.SERVER_PORT, () => {
+      console.log(`listen ${process.env.SERVER_PORT} ok`);
+    });
+    
+  } catch (error) {
+    console.error("发生错误:", error);
+    process.exit(1);
+  }
+}
 
-
-//加载router
-app.use(authRouter.routes())
-app.use(authRouter.allowedMethods())
-
-app.use(userRouter.routes())
-app.use(userRouter.allowedMethods())
-
-
-//服务启动
-app.listen(process.env.SERVER_PORT, () => {
-  console.log(`listen ${process.env.SERVER_PORT} ok`);
-})
+startServer();

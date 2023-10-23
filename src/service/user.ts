@@ -6,7 +6,9 @@ import UserGetUserInfoResponse from "../response/user-get-user-info";
 
 class UserService{
   async register(userRegisterDto: UserRegisterDto): Promise<void> {
+    //查找用户是否存在
     const user = new UserModel();
+
     await user.register(userRegisterDto)
   }
 

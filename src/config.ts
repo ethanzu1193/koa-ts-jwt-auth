@@ -6,6 +6,8 @@ import fs from 'fs';
 
   
 export function initConfig() {
+  console.log("initConfig");
+  
     // 获取程序根目录的路径
   const rootPath = process.cwd(); 
   // 先检查是否存在 .local_env 文件
