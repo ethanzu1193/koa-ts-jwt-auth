@@ -4,22 +4,29 @@ import UserGetUserInfoResponse from "../response/user-get-user-info";
 import { User } from "../entity/user";
 import { AppDataSource } from "../data-source";
 import { v4 as uuid } from "uuid";
+import { ParameterException } from "../core/http-exception";
+import { PasswordUtil } from "../core/passwordUtil";
 
 class UserModel {
 
-  async register(userRegisterDto:UserRegisterDto): Promise<void> {
-    const user = new User();
-    user.userId =   uuid();
-    user.nickName = userRegisterDto.nickName;
-    user.password = userRegisterDto.password;
+  async register(userRegisterDto: UserRegisterDto): Promise<void> {
     
-    if (AppDataSource) {
-      await AppDataSource.manager.save(user)
-      console.log("Saved a new user with id: " + user.id)
-    } else {
-      throw new Error("数据库连接失败")
+    if (userRegisterDto.nickName && userRegisterDto.password) {
+      const user = new User();
+      user.userId = uuid();
+      user.nickName = userRegisterDto.nickName;
+      user.password = await PasswordUtil.hashPassword(userRegisterDto.password);
+      
+      if (AppDataSource) {
+        await AppDataSource.manager.save(user)
+        console.log("Saved a new user with id: " + user.id)
+      } else {
+        throw new Error("数据库连接失败")
+      }
+    } else { 
+      throw new ParameterException('参数异常')
     }
-
+   
   }
 
   async getUserInfoByNickName(nickName:string): Promise<User | null> {
