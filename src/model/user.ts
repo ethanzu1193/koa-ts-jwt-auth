@@ -1,6 +1,5 @@
 import UserGetUserInfoDto from "../dto/user-get-user-info";
 import UserRegisterDto from "../dto/user-register";
-import UserGetUserInfoResponse from "../response/user-get-user-info";
 import { User } from "../entity/user";
 import { AppDataSource } from "../data-source";
 import { v4 as uuid } from "uuid";

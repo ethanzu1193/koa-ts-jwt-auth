@@ -20,7 +20,9 @@ class UserController{
     if (errors.length > 0) {
       throw new ParameterException(extractValidationErrors(errors))
     }
-    
+    if (dto.password !== dto.confirmPassword) {
+      throw new ParameterException('密码不一致')
+    }
     const userService = new UserService();
     await userService.register(dto)
     ctx.status = 200;

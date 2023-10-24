@@ -19,14 +19,12 @@ class AuthController{
     if (errors.length > 0) {
       throw new ParameterException(extractValidationErrors(errors))
     }    
-    if (dto.password !== dto.confirmPassword) {
-      throw new ParameterException('密码不一致')
-    }
+
     const authService = new AuthService();
-    authService.login(dto)
+    const userLoginResponse = await authService.login(dto)
     
     ctx.status = 200;
-    ctx.body = res.success('注册成功');
+    ctx.body = res.json(userLoginResponse,'登录成功');
 
   }
 
