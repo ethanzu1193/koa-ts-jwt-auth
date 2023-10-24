@@ -8,6 +8,7 @@ import UserLoginDto from "../dto/user-login";
 import AuthService from "../service/auth";
 import UserLogOutDto from "../dto/user-logOut";
 
+
 class AuthController{
   // 用户登录
   static async login(ctx: Context, next: Next): Promise<void> {
@@ -31,6 +32,7 @@ class AuthController{
   static async logOut(ctx: Context, next: Next): Promise<void> {
     const dto = new UserLogOutDto()
     Object.assign(dto, ctx.request.body)
+
     //参数校验
     const errors = await validate(dto);
     if (errors.length > 0) {
@@ -39,10 +41,8 @@ class AuthController{
 
     const authService = new AuthService();
     authService.logOut(dto)
-    
     ctx.status = 200;
     ctx.body = res.success('注册成功');
-
   }
 
 }

@@ -7,6 +7,7 @@ import authRouter from './router/auth';
 import Router = require('@koa/router');
 import userRouter from './router/user';
 import "reflect-metadata"
+
     
 import { AppDataSource, initDataSource } from './data-source';
 
@@ -16,18 +17,18 @@ async function startServer() {
      initConfig();
 
     const app = new Koa();
-    
+
     // 异常处理
     app.use(catchError);
     
     // 入参验证
     app.use(KoaBouncer.middleware());
-    
+
     // Koa body parsing middleware
     app.use(bodyParser({
       enableTypes: ['json', 'form', 'text']
     }));
-    
+
     // 加载 router
     app.use(authRouter.routes());
     app.use(authRouter.allowedMethods());
@@ -35,12 +36,14 @@ async function startServer() {
     app.use(userRouter.routes());
     app.use(userRouter.allowedMethods());
 
+
     // 初始化数据库
     initDataSource();
     if (AppDataSource) {
       await AppDataSource.initialize();
       console.log("DB 初始化成功");
     }
+
 
     // 服务启动
     app.listen(process.env.SERVER_PORT, () => {

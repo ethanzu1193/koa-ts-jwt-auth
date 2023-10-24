@@ -8,6 +8,6 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "outDir": "./build",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   }
 }

@@ -5,7 +5,7 @@ import { HttpException } from '../core/http-exception';
 const catchError: Middleware = async (ctx, next) => {
   try {
     await next();
-  } catch (error) {
+  } catch (error:any) {
     if (error instanceof ValidationError) {
       ctx.body = {
         name: error.name,

@@ -19,11 +19,10 @@ class UserController{
     const errors = await validate(dto);
     if (errors.length > 0) {
       throw new ParameterException(extractValidationErrors(errors))
-    }    
-
-    const userService = new UserService();
-    userService.register(dto)
+    }
     
+    const userService = new UserService();
+    await userService.register(dto)
     ctx.status = 200;
     ctx.body = res.success('注册成功');
 

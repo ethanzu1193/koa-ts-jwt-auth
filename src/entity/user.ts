@@ -4,22 +4,19 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 export class User {
 
     @PrimaryGeneratedColumn()
-    id: number = -1
+    id!: number
 
     @Column({
-      length:255
-    })
-    userId: string = ''
+    length: 255
+  })
+    userId!: string
   
     @Column({
       length:40
     })
-    nickName: string = ''
+    nickName!: string
 
     @Column()
-    password: string = ''
-
-    @Column("integer")
-    age: number = -1
+    password!: string
 
 }

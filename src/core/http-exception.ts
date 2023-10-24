@@ -1,4 +1,4 @@
-class HttpException extends Error{
+class HttpException extends TypeError{
 
   public errorCode: number;
   public code: number;
