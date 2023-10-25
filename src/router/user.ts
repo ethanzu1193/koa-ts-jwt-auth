@@ -6,5 +6,5 @@ import { config } from '../config';
 const userRouter = new Router();
 
 userRouter.post('/user/register', UserController.register)
-userRouter.get('/user/getUserInfo',jwt({secret: config.SECRET_KEY }), UserController.getUserInfo)
+userRouter.post('/user/getUserInfo',jwt({secret: config.SECRET_KEY }), UserController.getUserInfo)
 export default userRouter;
