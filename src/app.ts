@@ -1,5 +1,5 @@
 import Koa = require('koa');
-import { initConfig } from './config';
+import { config } from './config';
 import catchError from './middleware/exception';
 import KoaBouncer = require('koa-bouncer');
 import bodyParser = require('koa-bodyparser');
@@ -13,9 +13,6 @@ import { AppDataSource, initDataSource } from './data-source';
 
 async function startServer() {
   try {
-    // 初始化配置
-     initConfig();
-
     const app = new Koa();
 
     // 异常处理
@@ -44,10 +41,9 @@ async function startServer() {
       console.log("DB 初始化成功");
     }
 
-
     // 服务启动
-    app.listen(process.env.SERVER_PORT, () => {
-      console.log(`listen ${process.env.SERVER_PORT} ok`);
+    app.listen(config.SERVER_PORT, () => {
+      console.log(`listen ${config.SERVER_PORT} ok`);
     });
     
   } catch (error) {

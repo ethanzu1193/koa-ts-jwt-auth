@@ -4,7 +4,7 @@ class UserGetUserInfoDto{
 
   @IsString()
   @IsNotEmpty({ message: '用户ID是必须的' })
-  userId: string | undefined;
+  userId!: string;
 
 }
 

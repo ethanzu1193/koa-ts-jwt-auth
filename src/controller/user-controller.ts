@@ -31,7 +31,8 @@ class UserController{
   }
 
    // 获取用户信息
-   static async getUserInfo(ctx: Context, next: Next): Promise<void> {
+  static async getUserInfo(ctx: Context, next: Next): Promise<void> {
+ 
     const dto = new UserGetUserInfoDto()
     Object.assign(dto, ctx.request.body)
     //参数校验
@@ -44,7 +45,7 @@ class UserController{
     const userGetUserInfoResponse = await userService.getUserInfo(dto)
     
     ctx.status = 200;
-    ctx.body = res.json(userGetUserInfoResponse,'注册成功');
+    ctx.body = res.json(userGetUserInfoResponse);
 
   }
 

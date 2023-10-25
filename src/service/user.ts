@@ -1,4 +1,4 @@
-import { Existing, ParameterException } from "../core/http-exception";
+import { Existing, NotFound, ParameterException } from "../core/http-exception";
 import UserGetUserInfoDto from "../dto/user-get-user-info";
 import UserRegisterDto from "../dto/user-register";
 import UserModel from "../model/user";
@@ -9,9 +9,6 @@ class UserService{
   async register(userRegisterDto: UserRegisterDto): Promise<void> {
     //查找用户是否存在
     const user = new UserModel();
-    if (!userRegisterDto.nickName) { 
-      throw new ParameterException('参数异常')
-    }
     const currentUser = await user.getUserInfoByNickName(userRegisterDto.nickName)
     if(currentUser){
       throw new Existing("用户已存在")
@@ -21,8 +18,15 @@ class UserService{
 
   async getUserInfo(userGetUserInfoDto: UserGetUserInfoDto): Promise<UserGetUserInfoResponse> {
     const user = new UserModel();
-    await user.getUserInfo(userGetUserInfoDto)
-    return new UserGetUserInfoResponse(); 
+    const userInfo = await user.getUserInfo(userGetUserInfoDto)
+    if (userInfo) {
+      const response = new UserGetUserInfoResponse()
+      response.nickName = userInfo.nickName
+      response.userId = userInfo.userId
+      return response
+    } else {
+      throw new NotFound('用户不存在')
+    }
   }
 
 }

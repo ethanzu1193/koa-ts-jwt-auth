@@ -1,4 +1,3 @@
-import { log } from "console";
 import { AuthFailed, ParameterException } from "../core/http-exception";
 import { PasswordUtil } from "../core/passwordUtil";
 import { generateToken } from "../core/tokenUtils";
